@@ -76,21 +76,22 @@ export default class App extends Component {
   //Display the title, URL, created_at, and author of each post in a table.
   renderItem = item =>
     <TouchableOpacity style={styles.list} onPress={() => this.displayModal(item)}>
-        <Text style={[styles.title,styles.bold]}>Title: {item.item.title}</Text>
-        <Text style={styles.normalText}>URL: {item.item.url}</Text>
-        <Text style={styles.normalText}>Author: {item.item.author}</Text>
-        <Text style={styles.normalText}>Created at: {moment(item.item.created_at).format('DD MMM, YYYY, LT')}</Text>
+        <Text style={[styles.title,styles.bold]}>{item.item.title}</Text>
+        <Text style={styles.url}>{item.item.url}</Text>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Text style={styles.normalText}>{item.item.author}</Text>
+          <Text style={styles.normalText}>{moment(item.item.created_at).format('DD MMM, YYYY, LT')}</Text>
+        </View>
     </TouchableOpacity>
 
   render() {
     const {data, modalVisible,rawData,name,page}= this.state;
 
-    const len = data.length / page;
-    console.log(len)
+    const len = data.length;
 
     const searchArray = data.filter(item=>  {
       if(name === '') return item;
-      if (item.title.toLowerCase().includes(name.toLowerCase()) || item.author.toLowerCase().includes(name.toLowerCase()) || item.url.toLowerCase().includes(name.toLowerCase()) ) return item;
+      if (item.title.toLowerCase().includes(name.toLowerCase()) || item.author.toLowerCase().includes(name.toLowerCase()) || item.url && item.url.toLowerCase().includes(name.toLowerCase()) ) return item;
     })
 
     return (
@@ -98,8 +99,9 @@ export default class App extends Component {
         <TextInput value={name} onChangeText={text=> this.setState({name: text })} style={styles.input}
         placeholderTextColor="blue"
         placeholder="Search by Title/Author/URL  here..." />
-        <View style={{padding: 10}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', padding: 10,}}>
           <Text style={[styles.bold,{textAlign: 'center'}]}>Page Refresh  : {page} times</Text>
+          <Text style={[styles.bold, { textAlign: 'center' }]}>Total Posts  : {len} posts</Text>
         </View>
          <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           <TouchableOpacity onPress={() => this.filteredTitleArray()} style={styles.btn}>
@@ -148,8 +150,13 @@ const styles=StyleSheet.create({
     color: '#0c9'
   },
   normalText:{
-    fontSize: 18,
+    fontSize: 14,
     paddingVertical: 4,
+  },
+  url:{
+    fontSize: 14,
+    paddingVertical: 4,
+    color: 'blue',
   },
   list:{
     margin: 15,
