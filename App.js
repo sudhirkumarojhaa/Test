@@ -99,7 +99,7 @@ export default class App extends Component {
         placeholderTextColor="blue"
         placeholder="Search by Title/Author/URL  here..." />
         <View style={{padding: 10}}>
-          <Text style={[styles.bold,{textAlign: 'center'}]}>Page Number : {page}</Text>
+          <Text style={[styles.bold,{textAlign: 'center'}]}>Page Refresh  : {page} times</Text>
         </View>
          <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           <TouchableOpacity onPress={() => this.filteredTitleArray()} style={styles.btn}>
